@@ -14,7 +14,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
+    private String name;
 
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -24,7 +24,7 @@ public class Product {
     private String imgUrl;
 
     @ManyToMany
-    @JoinTable(name = "tb_product_category",
+    @JoinTable(name = "product_category_tb",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
@@ -35,9 +35,9 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long id, String nome, String description, Double price, String imgUrl) {
+    public Product(Long id, String name, String description, Double price, String imgUrl) {
         this.id = id;
-        this.nome = nome;
+        this.name = name;
         this.description = description;
         this.price = price;
         this.imgUrl = imgUrl;
@@ -51,12 +51,12 @@ public class Product {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
