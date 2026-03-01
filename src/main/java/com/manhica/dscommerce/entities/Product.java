@@ -1,5 +1,6 @@
 package com.manhica.dscommerce.entities;
 
+import com.manhica.dscommerce.dto.ProductDTO;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -106,5 +107,13 @@ public class Product {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    public void copyDto(ProductDTO dto){
+        this.name = dto.getName();
+        this.description = dto.getDescription();
+        this.price = dto.getPrice();
+        this.imgUrl = dto.getImgUrl();
+
     }
 }

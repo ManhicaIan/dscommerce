@@ -1,7 +1,6 @@
 package com.manhica.dscommerce.controllers;
 
 import com.manhica.dscommerce.dto.ProductDTO;
-import com.manhica.dscommerce.repositories.ProductRepository;
 import com.manhica.dscommerce.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,8 +18,14 @@ public class ProductController {
     public ProductDTO findById(@PathVariable Long id){
         return service.findById(id);
     }
+
     @GetMapping
     public Page<ProductDTO> findAllByPage(Pageable pageable){
         return service.findAllByPage(pageable);
+    }
+
+    @PostMapping
+    public ProductDTO insert(@RequestBody ProductDTO dto){
+        return service.insert(dto);
     }
 }
