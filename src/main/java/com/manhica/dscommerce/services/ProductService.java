@@ -3,13 +3,13 @@ package com.manhica.dscommerce.services;
 import com.manhica.dscommerce.dto.ProductDTO;
 import com.manhica.dscommerce.entities.Product;
 import com.manhica.dscommerce.repositories.ProductRepository;
+import com.manhica.dscommerce.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 
 @Service
@@ -20,7 +20,8 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id){
-        Product product = repository.findById(id).get();
+        Product product = repository.findById(id).
+                orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
         return new ProductDTO(product);
     }
 
@@ -40,14 +41,21 @@ public class ProductService {
 
     @Transactional
     public ProductDTO update(Long id, ProductDTO dto){
-        Product product = repository.getReferenceById(id);
-        product.copyDto(dto);
-        product = repository.save(product);
-        return new ProductDTO(product);
+        try {
+            Product product = repository.getReferenceById(id);
+            product.copyDto(dto);
+            product = repository.save(product);
+            return new ProductDTO(product);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Resource not found");
+        }
     }
 
     @Transactional
     public void deleteById(Long id){
+        if(!repository.existsById(id)){
+            throw new ResourceNotFoundException("Resource not found");
+        }
         repository.deleteById(id);
     }
 }
