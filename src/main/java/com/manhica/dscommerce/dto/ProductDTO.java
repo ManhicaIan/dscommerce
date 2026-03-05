@@ -1,17 +1,27 @@
 package com.manhica.dscommerce.dto;
 
 import com.manhica.dscommerce.entities.Product;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 public class ProductDTO {
 
     private Long id;
+
+    @NotBlank(message = "This field is required")
+    @Size(min = 3, max = 80, message = "The name must be between 3 and 80 characters long")
     private String name;
+
+    @NotBlank(message = "This field is required")
+    @Size(min = 3, message = "The description must be at least 10 characters long")
     private String description;
+
+    @Positive(message = "The price should be positive")
     private Double price;
+
     private String imgUrl;
 
     public ProductDTO() {
